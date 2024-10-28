@@ -3,6 +3,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import PlansPage from "./pages/PlansPage";
 import BrowsePage from "./pages/BrowsePage";
+import WatchPage from "./pages/WatchPage";
 import "./App.css";
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
       {/* <HomePage /> */}
       {/* <LoginPage /> */}
       {/* <PlansPage /> */}
-      <BrowsePage />
+      {/* <BrowsePage /> */}
+      <WatchPage />
     </div>
   );
 }
