@@ -1,13 +1,15 @@
 // import pages
 import HomePage from "./pages/HomePage";
-import "./App.css";
 import LoginPage from "./pages/LoginPage";
+import PlansPage from "./pages/PlansPage";
+import "./App.css";
 
 function App() {
   return (
     <div>
       {/* <HomePage /> */}
-      <LoginPage />
+      {/* <LoginPage /> */}
+      <PlansPage />
     </div>
   );
 }
