@@ -1,12 +1,14 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { PlayIcon } from "@heroicons/react/24/solid";
-import breakingBad from "../assets/breaking-bad.jpg";
+import { Movie } from "../types";
 
-function MovieCard() {
+function MovieCard({ movie }: { movie: Movie }) {
+  const { thumbnailUrl, title, description, duration, genre } = movie;
+
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw] w-[24%]">
       <img
-        src={breakingBad}
+        src={thumbnailUrl}
         alt="Movie"
         draggable={false}
         className="cursor-pointer object-cover transition duration shadow-xl rounded-md group-hover:opacity-90 sm:group-hover:opacity-0 delay-300 w-full h-[12vw]
@@ -14,7 +16,7 @@ function MovieCard() {
       />
       <div className="opacity-0 absolute top-0 transition duration-200 z-10 invisible sm:visible delay-300 w-full scale-0 group-hover:scale-110 group-hover:-translate-y-[6vw] group-hover:translate-x-[2vw] group-hover:opacity-100">
         <img
-          src={breakingBad}
+          src={thumbnailUrl}
           alt="Movie"
           draggable={false}
           className="cursor-pointer object-cover transition duration shadow-xl rounded-t-md w-full h-[12vw]"
@@ -31,13 +33,13 @@ function MovieCard() {
               <ChevronDownIcon className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />
             </div>
           </div>
-          <p className="text-white font-semibold mt-4 text-2xl">Breaking Bad</p>
-          <p className="text-gray-400">Teacher turned drug lord</p>
+          <p className="text-white font-semibold mt-4 text-2xl">{title}</p>
+          <p className="text-gray-400">{description}</p>
           <div className="flex flex-row mt-4 gap-2 items-center">
-            <p className="text-white text-[10px] lg:text-sm">5 hours</p>
+            <p className="text-white text-[10px] lg:text-sm">{duration}</p>
           </div>
           <div className="flex flex-row items-center gap-2 mt-4 text-[8px] text-white lg:text-sm">
-            <p>Drama</p>
+            <p>{genre}</p>
           </div>
         </div>
       </div>

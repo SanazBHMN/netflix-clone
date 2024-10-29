@@ -1,20 +1,11 @@
 import axios from "axios";
 import { useEffect, useReducer } from "react";
+import { Movie } from "../types";
 
 interface State {
   data: Movie[] | null;
   error: string | null;
   loading: boolean;
-}
-
-interface Movie {
-  id: string;
-  title: string;
-  description: string;
-  thumbnailUrl: string;
-  videoUrl: string;
-  duration: string;
-  genre: string;
 }
 
 const initialState: State = {
