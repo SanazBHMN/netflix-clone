@@ -2,9 +2,11 @@ import Navbar from "../components/Navbar";
 import Billboard from "../components/Billboard";
 import MovieList from "../components/MovieList";
 import useMoviesList from "../hooks/useMoviesList";
+import { useState } from "react";
 
 function BrowsePage() {
-  const { data, loading, error } = useMoviesList();
+  const [offset, setOffset] = useState(12);
+  const { data, loading, error } = useMoviesList(offset);
 
   // console.log(data, loading, error);
 
