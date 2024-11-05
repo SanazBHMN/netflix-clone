@@ -6,7 +6,7 @@ import useMoviesList from "../hooks/useMoviesList";
 function BrowsePage() {
   const { data, loading, error } = useMoviesList();
 
-  console.log(data, loading, error);
+  // console.log(data, loading, error);
 
   return (
     <div>
