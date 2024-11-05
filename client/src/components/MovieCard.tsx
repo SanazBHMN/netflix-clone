@@ -1,9 +1,12 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { PlayIcon } from "@heroicons/react/24/solid";
 import { Movie } from "../types";
+import { useNavigate } from "react-router-dom";
 
 function MovieCard({ movie }: { movie: Movie }) {
-  const { thumbnailUrl, title, description, duration, genre } = movie;
+  const { id, thumbnailUrl, title, description, duration, genre } = movie;
+
+  const navigate = useNavigate();
 
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw] w-[24%]">
@@ -25,7 +28,7 @@ function MovieCard({ movie }: { movie: Movie }) {
           <div className="flex flex-row items-center gap-3">
             <button
               className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300"
-              //   onClick={() => navigate(`/browse/watch/${id}`)}
+              onClick={() => navigate(`/browse/watch/${id}`)}
             >
               <PlayIcon className="text-black w-4 lg:w-6" />
             </button>
