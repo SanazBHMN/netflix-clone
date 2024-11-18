@@ -58,7 +58,7 @@ const useMoviesList = (offset: number) => {
 
   useEffect(() => {
     fetchMoviesList();
-  }, []);
+  }, [offset]);
 
   const fetchMoviesList = async () => {
     dispatch({ type: ActionType.LOADING });

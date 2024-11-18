@@ -5,7 +5,7 @@ import useMoviesList from "../hooks/useMoviesList";
 import { useState, useRef, useCallback } from "react";
 
 function BrowsePage() {
-  const [offset, setOffset] = useState(12);
+  const [offset, setOffset] = useState(0);
   const { data, loading, error } = useMoviesList(offset);
 
   const observer = useRef<null | IntersectionObserver>(null);
