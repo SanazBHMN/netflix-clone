@@ -25,13 +25,13 @@ type Action =
   | { type: ActionType.SUCCESS; payload: Movie[] }
   | { type: ActionType.FAILED; payload: string };
 
-const reducer = (_: State, action: Action): State => {
+const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ActionType.LOADING:
       return {
+        ...state,
         loading: true,
         error: null,
-        data: null,
       };
     case ActionType.FAILED:
       return {
@@ -67,7 +67,8 @@ const useMoviesList = (offset: number) => {
         `http://localhost:8080/movies/list?offset=${offset}`
       );
       //   console.log(response);
-      dispatch({ type: ActionType.SUCCESS, payload: response.data });
+      const moviesData = data ? [...data, ...response.data] : response.data;
+      dispatch({ type: ActionType.SUCCESS, payload: moviesData });
     } catch (error) {
       dispatch({ type: ActionType.FAILED, payload: "SOMETHING WENT WRONG" });
     }
