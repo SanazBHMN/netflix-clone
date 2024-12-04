@@ -3,6 +3,7 @@ import Billboard from "../components/Billboard";
 import MovieList from "../components/MovieList";
 import useMoviesList from "../hooks/useMoviesList";
 import { useState, useRef, useCallback } from "react";
+import LoadingCards from "../components/LoadingCards";
 
 function BrowsePage() {
   const [offset, setOffset] = useState(0);
@@ -34,9 +35,9 @@ function BrowsePage() {
       <Navbar />
       <Billboard />
       <div className="pb-5">
-        {loading && <p>LOADING...</p>}
         {error && <p>{error}</p>}
         {data && <MovieList movies={data} lastElementRef={lastElementRef} />}
+        {loading ? <LoadingCards /> : null}
       </div>
     </div>
   );

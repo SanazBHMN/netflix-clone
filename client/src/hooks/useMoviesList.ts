@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Movie } from "../types";
 
 interface State {
@@ -55,19 +55,25 @@ const useMoviesList = (offset: number) => {
     reducer,
     initialState
   );
+  const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
     fetchMoviesList();
   }, [offset]);
 
   const fetchMoviesList = async () => {
+    if (data && count && data.length >= count) return;
+
     dispatch({ type: ActionType.LOADING });
     try {
       const response = await axios.get(
         `http://localhost:8080/movies/list?offset=${offset}`
       );
       //   console.log(response);
-      const moviesData = data ? [...data, ...response.data] : response.data;
+      const moviesData = data
+        ? [...data, ...response.data.movies]
+        : response.data.movies;
+      setCount(response.data.count);
       dispatch({ type: ActionType.SUCCESS, payload: moviesData });
     } catch (error) {
       dispatch({ type: ActionType.FAILED, payload: "SOMETHING WENT WRONG" });
