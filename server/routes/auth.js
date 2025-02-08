@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { prisma } = require("../db");
 const { check, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 
 router.post(
   "/signup",
@@ -38,7 +39,8 @@ router.post(
       });
     }
 
-    res.send("VALID");
+    const hashedPassword = await bcrypt.hash(password, 10);
+    res.send(hashedPassword);
 
     console.log(errors);
   }
