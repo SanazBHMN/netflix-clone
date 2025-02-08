@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { prisma } = require("../db");
 const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
+const JWT = require("jsonwebtoken");
 
 router.post(
   "/signup",
@@ -47,10 +48,20 @@ router.post(
         username,
         password: hashedPassword,
       },
+      select: {
+        id: true,
+        username: true,
+        email: false,
+      },
+    });
+
+    const token = await JWT.sign(newUser, process.env.JSON_WEB_TOKEN_SECRET, {
+      expiresIn: 3600000,
     });
 
     res.json({
       user: newUser,
+      token,
     });
 
     console.log(errors);
