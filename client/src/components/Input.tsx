@@ -1,15 +1,24 @@
+import { useContext } from "react";
+import { AuthFormContext, Inputs } from "../pages/LoginPage";
+
 interface InputProps {
   id: string;
   label: string;
   type?: string;
+  name: keyof Inputs;
 }
 
-function Input({ id, label, type }: InputProps) {
+function Input({ id, label, type, name }: InputProps) {
+  const { register } = useContext(AuthFormContext);
+
+  if (!register) return null;
+
   return (
     <div className="relative">
       <input
         id={id}
         type={type}
+        {...register(name)}
         className="block rounded-md px-6 pt-6 pb-1 w-full text-base"
       />
       <label
