@@ -1,5 +1,10 @@
 import { createContext, useState } from "react";
-import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  UseFormRegister,
+  FieldErrors,
+} from "react-hook-form";
 import Input from "../components/Input";
 import Navbar from "../components/Navbar";
 
@@ -16,10 +21,12 @@ enum Variant {
 
 interface AuthFormContextType {
   register: UseFormRegister<Inputs> | null;
+  errors: FieldErrors<Inputs>;
 }
 
 export const AuthFormContext = createContext<AuthFormContextType>({
   register: null,
+  errors: {},
 });
 
 function LoginPage() {
@@ -29,8 +36,11 @@ function LoginPage() {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
     watch,
   } = useForm<Inputs>();
+
+  console.log(errors);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
@@ -42,7 +52,7 @@ function LoginPage() {
           <h2 className="text-white text-3xl mb-8 font-semibold">
             {variant === Variant.SIGN_UP ? "Sign Up" : "Login"}
           </h2>
-          <AuthFormContext.Provider value={{ register }}>
+          <AuthFormContext.Provider value={{ register, errors }}>
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col gap-4"
@@ -61,6 +71,26 @@ function LoginPage() {
                 type="password"
                 label="Password"
                 name="password"
+                validate={
+                  variant === Variant.SIGN_UP
+                    ? () => {
+                        const password = getValues("password");
+                        if (password.length < 8) {
+                          return "Password must be greater that 8 characters";
+                        }
+                        if (!/[A-Z]/.test(password)) {
+                          return "Password must have at least one uppercase value";
+                        }
+                        if (!/[a-z]/.test(password)) {
+                          return "Password must have at least one lowercase value";
+                        }
+                        if (!/\d/.test(password)) {
+                          return "Password must have at lease one number";
+                        }
+                        return true;
+                      }
+                    : undefined
+                }
               />
               <input
                 type="submit"

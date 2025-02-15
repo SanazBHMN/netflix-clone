@@ -6,10 +6,11 @@ interface InputProps {
   label: string;
   type?: string;
   name: keyof Inputs;
+  validate?: (text: string) => string | true;
 }
 
-function Input({ id, label, type, name }: InputProps) {
-  const { register } = useContext(AuthFormContext);
+function Input({ id, label, type, name, validate }: InputProps) {
+  const { register, errors } = useContext(AuthFormContext);
 
   if (!register) return null;
 
@@ -18,7 +19,10 @@ function Input({ id, label, type, name }: InputProps) {
       <input
         id={id}
         type={type}
-        {...register(name)}
+        {...register(name, {
+          required: true,
+          validate,
+        })}
         className="block rounded-md px-6 pt-6 pb-1 w-full text-base"
       />
       <label
@@ -27,6 +31,12 @@ function Input({ id, label, type, name }: InputProps) {
       >
         {label}
       </label>
+      {errors[name]?.type === "required" && (
+        <p className="text-red-600">This field is required</p>
+      )}
+      {errors[name]?.type === "validate" && (
+        <p className="text-red-600">{errors[name].message}</p>
+      )}
     </div>
   );
 }
