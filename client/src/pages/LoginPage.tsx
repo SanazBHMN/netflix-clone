@@ -32,6 +32,7 @@ export const AuthFormContext = createContext<AuthFormContextType>({
 
 function LoginPage() {
   const [variant, setVariant] = useState(Variant.LOGIN);
+  const [authError, setAuthError] = useState("");
 
   const {
     register,
@@ -46,20 +47,27 @@ function LoginPage() {
   const { signup, login } = useAuth();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ name, email, password }) => {
-    console.log(name);
-    if (variant === Variant.SIGN_UP) {
-      const response = await signup({
-        username: name,
-        email,
-        password,
-      });
-
-      console.log(response);
-    } else {
-      const response = await login({ email, password });
-
-      console.log(response);
+    try {
+      if (variant === Variant.SIGN_UP) {
+        await signup({
+          username: name,
+          email,
+          password,
+        });
+      } else {
+        await login({ email, password });
+      }
+      setAuthError("");
+    } catch (error: any) {
+      setAuthError(error.response.data.errors[0].msg);
     }
+  };
+
+  const handleChangeAuthVariant = () => {
+    if (variant === Variant.LOGIN) setVariant(Variant.SIGN_UP);
+    else setVariant(Variant.LOGIN);
+
+    setAuthError("");
   };
 
   return (
@@ -114,12 +122,13 @@ function LoginPage() {
                 type="submit"
                 className="bg-red-400 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700"
               />
+              {authError && <p className="text-red-500">{authError}</p>}
             </form>
           </AuthFormContext.Provider>
           {variant === Variant.LOGIN ? (
             <p
               className="text-neutral-500 mt-12"
-              onClick={() => setVariant(Variant.SIGN_UP)}
+              onClick={handleChangeAuthVariant}
             >
               <span className="text-white ml-1 hover:underline cursor-pointer">
                 First time using Netflix?
@@ -128,7 +137,7 @@ function LoginPage() {
           ) : (
             <p
               className="text-neutral-500 mt-12"
-              onClick={() => setVariant(Variant.LOGIN)}
+              onClick={handleChangeAuthVariant}
             >
               <span className="text-white ml-1 hover:underline cursor-pointer">
                 Already have an account?
