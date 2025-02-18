@@ -13,7 +13,7 @@ const useAuth = () => {
       password,
     });
 
-    return response.data();
+    return response.data;
   };
 
   const signup = async ({
@@ -25,13 +25,13 @@ const useAuth = () => {
     email: string;
     password: string;
   }) => {
-    const response = await axios.post("http://localhost:8080/signup", {
+    const response = await axios.post("http://localhost:8080/auth/signup", {
       username,
       email,
       password,
     });
 
-    return response.data();
+    return response.data;
   };
 
   const fetchUser = () => {};

@@ -7,6 +7,7 @@ import {
 } from "react-hook-form";
 import Input from "../components/Input";
 import Navbar from "../components/Navbar";
+import useAuth from "../hooks/useAuth";
 
 export type Inputs = {
   email: string;
@@ -40,9 +41,26 @@ function LoginPage() {
     watch,
   } = useForm<Inputs>();
 
-  console.log(errors);
+  // console.log(errors);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const { signup, login } = useAuth();
+
+  const onSubmit: SubmitHandler<Inputs> = async ({ name, email, password }) => {
+    console.log(name);
+    if (variant === Variant.SIGN_UP) {
+      const response = await signup({
+        username: name,
+        email,
+        password,
+      });
+
+      console.log(response);
+    } else {
+      const response = await login({ email, password });
+
+      console.log(response);
+    }
+  };
 
   return (
     <div className="relative bg-black h-screen w-screen bg-opacity-50">
