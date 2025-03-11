@@ -1,4 +1,7 @@
 import axios from "axios";
+import Cookies from "universal-cookie";
+
+const cookie = new Cookies();
 
 const useAuth = () => {
   const login = async ({
@@ -12,6 +15,9 @@ const useAuth = () => {
       email,
       password,
     });
+
+    const { token } = response.data;
+    cookie.set("session_token", token);
 
     return response.data;
   };
@@ -30,6 +36,9 @@ const useAuth = () => {
       email,
       password,
     });
+
+    const { token } = response.data;
+    cookie.set("session_token", token);
 
     return response.data;
   };
