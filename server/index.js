@@ -15,6 +15,8 @@ app.use("/auth", require("./routes/auth"));
 
 app.use("", require("./routes/movies"));
 
+app.use("/sub", require("./routes/sub"));
+
 app.listen(8080, () => {
   console.log("LISTENING ON PORT 8080");
 });
